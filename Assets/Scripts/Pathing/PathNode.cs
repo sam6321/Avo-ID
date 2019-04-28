@@ -166,17 +166,22 @@ public class PathNode : MonoBehaviour
     {
         bool ancestorDisabled = GetAncestorDisabled(this);
 
-        Gizmos.color = Previous.Count == 0 ? Color.yellow : Color.white;
-        if(ancestorDisabled)
+        Gizmos.color = Previous.Count == 0 ? Color.yellow : Color.green;
+
+        if(!NodeEnabled)
         {
-            Gizmos.color *= reduceColour;
+            Gizmos.color = Color.red;
+        }
+        else if(ancestorDisabled)
+        {
+            Gizmos.color = Color.red + Color.green * 0.5f; // orange
         }
 
         Gizmos.DrawSphere(transform.position, 0.1f);
         foreach (PathNode next in Next)
         {
             Gizmos.color = Color.white;
-            if (ancestorDisabled || !NodeEnabled)
+            if (ancestorDisabled || !next.NodeEnabled || !NodeEnabled)
             {
                 Gizmos.color *= reduceColour;
             }
