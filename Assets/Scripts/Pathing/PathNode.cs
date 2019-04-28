@@ -1,61 +1,78 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class PathNodeEntry
+[ExecuteInEditMode]
+public class PathNode : MonoBehaviour
 {
-    private PathNode node;
-    private bool enabled;
+    [SerializeField]
+    public PathGraph Graph;
 
-    public PathNodeEntry(PathNode node, bool enabled)
+    [SerializeField]
+    private bool nodeEnabled = true;
+
+    [SerializeField]
+    private List<PathNode> nextNodes = new List<PathNode>();
+
+    [SerializeField]
+    private List<PathNode> previousNodes = new List<PathNode>();
+
+    public IReadOnlyCollection<PathNode> Next { get { return nextNodes; } }
+    public IReadOnlyCollection<PathNode> Previous { get { return previousNodes; } }
+    
+    public bool NodeEnabled
     {
-        this.node = node;
-        this.enabled = enabled;
+        get { return nodeEnabled; }
+        set { nodeEnabled = value; }
     }
 
-    public PathNode Node
+    void Start()
     {
-        get { return node; }
+        // Ensure all of our previous nodes have a link to us as a next node,
+        // and all our next nodes have a link to us as previous.
+        // Also ensure we have a reference to our parent node graph container.
+        EnsureValid();
     }
 
-    public bool Enabled
+    void OnDestroy()
     {
-        get { return enabled; }
-        set { enabled = value; }
-    }
-}
+        EnsureValid();
 
-[Serializable]
-public class PathNode
-{
-    private static long nextId = 0;
-
-    private long id = nextId++;
-    private List<PathNodeEntry> links = new List<PathNodeEntry>();
-    public Vector3 Position { get; set; }
-    public IReadOnlyList<PathNodeEntry> Links { get { return links; } }
-
-    public void SetLink(PathNode next, bool enabled=true)
-    {
-        PathNodeEntry link = GetLink(next);
-        if(link == null)
+        foreach (PathNode next in Next.ToArray())
         {
-            link = new PathNodeEntry(next, enabled);
-            links.Add(link);
+            next.RemovePrevious(this);
+        }
+
+        foreach(PathNode previous in Previous.ToArray())
+        {
+            previous.RemoveNext(this);
+        }
+
+        if (Graph)
+        {
+            Graph.RemoveRoot(this);
+        }
+    }
+
+    public bool AddNext(PathNode next)
+    {
+        if(HasNext(next))
+        {
+            return false;
         }
         else
         {
-            link.Enabled = enabled;
+            nextNodes.Add(next);
+            next.AddPrevious(this);
+            return true;
         }
     }
 
-    public bool RemoveLink(PathNode next)
+    public bool RemoveNext(PathNode next)
     {
-        int index = links.FindIndex(entry => entry.Node == next);
-        if(index >= 0)
+        if(nextNodes.Remove(next))
         {
-            links.RemoveAt(index);
+            next.RemovePrevious(this);
             return true;
         }
         else
@@ -64,13 +81,117 @@ public class PathNode
         }
     }
 
-    public bool HasLink(PathNode next)
+    public bool HasNext(PathNode next)
     {
-        return GetLink(next) != null;
+        return nextNodes.Contains(next);
     }
 
-    private PathNodeEntry GetLink(PathNode next)
+    public bool AddPrevious(PathNode previous)
     {
-        return links.Find(entry => entry.Node == next);
+        if(HasPrevious(previous))
+        {
+            return false;
+        }
+        else
+        {
+            previousNodes.Add(previous);
+            previous.AddNext(this);
+            return true;
+        }
     }
+
+    public bool RemovePrevious(PathNode previous)
+    {
+        if(previousNodes.Remove(previous))
+        {
+            previous.RemoveNext(this);
+            if(Graph)
+            {
+                Graph.MaybeOrphan(this);
+            }
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public bool HasPrevious(PathNode previous)
+    {
+        return previousNodes.Contains(previous);
+    }
+
+    private void EnsureValid()
+    {
+        Graph = GetComponentInParent<PathGraph>();
+
+        foreach(PathNode node in Next)
+        {
+            node.AddPrevious(this);
+        }
+
+        foreach(PathNode node in Previous)
+        {
+            node.AddNext(this);
+        }
+    }
+
+    #region Gizmos
+
+    static readonly Vector3 lineUp = new Vector3(0, 0.1f, -0.1f);
+    static readonly Vector3 lineDown = new Vector3(0, -0.1f, -0.1f);
+    static readonly Vector3 lineLeft = new Vector3(0.1f, 0, -0.1f);
+    static readonly Vector3 lineRight = new Vector3(-0.1f, 0, -0.1f);
+    static readonly Color reduceColour = new Color(0.5f, 0.5f, 0.5f);
+
+    private bool GetAncestorDisabled(PathNode node)
+    {
+        foreach(PathNode previous in node.Previous)
+        {
+            if(previous.NodeEnabled)
+            {
+                return GetAncestorDisabled(previous);
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private void OnDrawGizmos()
+    {
+        bool ancestorDisabled = GetAncestorDisabled(this);
+
+        Gizmos.color = Previous.Count == 0 ? Color.yellow : Color.white;
+        if(ancestorDisabled)
+        {
+            Gizmos.color *= reduceColour;
+        }
+
+        Gizmos.DrawSphere(transform.position, 0.1f);
+        foreach (PathNode next in Next)
+        {
+            Gizmos.color = Color.white;
+            if (ancestorDisabled || !NodeEnabled)
+            {
+                Gizmos.color *= reduceColour;
+            }
+
+            Vector3 from = transform.position;
+            Vector3 to = next.transform.position;
+            Gizmos.DrawLine(from, to);
+            Gizmos.matrix = Matrix4x4.TRS((from + to) * 0.5f, Quaternion.LookRotation((to - from).normalized), Vector3.one);
+            Gizmos.DrawLine(Vector3.zero, lineUp);
+            Gizmos.DrawLine(Vector3.zero, lineDown);
+            Gizmos.DrawLine(Vector3.zero, lineLeft);
+            Gizmos.DrawLine(Vector3.zero, lineRight);
+            Gizmos.matrix = Matrix4x4.identity;
+        }
+    }
+
+    #endregion
 }
