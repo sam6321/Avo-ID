@@ -15,14 +15,34 @@ public class AvoSpawner : MonoBehaviour
 
     private float lastSpawn = 0.0f;
 
-    // Update is called once per frame
     void Update()
     {
         if(Time.time >= lastSpawn + spawnRate)
         {
             GameObject newAvo = Instantiate(avoPrefab, spawnNode.transform.position, Quaternion.identity);
             PathTraverser traverser = newAvo.GetComponent<PathTraverser>();
+            Rigidbody rigidbody = newAvo.GetComponent<Rigidbody>();
             traverser.Target = spawnNode;
+            traverser.OnHitTarget.AddListener((lastNode, nextNode) =>
+            {
+                if (!nextNode)
+                {
+                    switch(lastNode.gameObject.name)
+                    {
+                        case "Node_Bin":
+                            rigidbody.velocity = Vector3.zero;
+                            rigidbody.useGravity = true;
+                            break;
+
+                        case "Node_Truck":
+                            Destroy(newAvo);
+                            break;
+
+                        default:
+                            break;
+                    }
+                }
+            });
 
             lastSpawn = Time.time;
         }

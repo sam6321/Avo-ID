@@ -4,6 +4,9 @@ using UnityEngine.Events;
 
 public class PathTraverser : MonoBehaviour
 {
+    [System.Serializable]
+    public class OnHitTargetEvent : UnityEvent<PathNode, PathNode> { }
+
     [SerializeField]
     private float moveSpeed = 1.0f;
 
@@ -14,7 +17,7 @@ public class PathTraverser : MonoBehaviour
     private PathNode target;
 
     [SerializeField]
-    private UnityEvent<PathNode> onHitTarget;
+    private OnHitTargetEvent onHitTarget;
 
     private new Rigidbody rigidbody;
 
@@ -24,7 +27,7 @@ public class PathTraverser : MonoBehaviour
         set { target = value; }
     }
 
-    public UnityEvent<PathNode> OnHitTarget
+    public OnHitTargetEvent OnHitTarget
     {
         get { return onHitTarget; }
     }
@@ -32,6 +35,10 @@ public class PathTraverser : MonoBehaviour
     void Start()
     {
         rigidbody = GetComponent<Rigidbody>();
+        if (onHitTarget == null)
+        {
+            onHitTarget = new OnHitTargetEvent();
+        }
     }
 
     void FixedUpdate()
@@ -42,14 +49,11 @@ public class PathTraverser : MonoBehaviour
             if (remaining < onTargetDistance)
             {
                 PathNode[] potentialTargets = Target.Next.Where(next => next.NodeEnabled).ToArray();
-                target = potentialTargets.Length > 0 ? Utils.RandomElement(potentialTargets) : null;
-                if(!target)
-                {
-                    rigidbody.velocity = Vector3.zero;
-                    rigidbody.useGravity = true;
-                }
+                PathNode nextTarget = potentialTargets.Length > 0 ? Utils.RandomElement(potentialTargets) : null;
+                
+                onHitTarget.Invoke(target, nextTarget);
 
-                onHitTarget.Invoke(target);
+                target = nextTarget;
             }
 
             if(target)
