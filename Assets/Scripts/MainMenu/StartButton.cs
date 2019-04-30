@@ -5,8 +5,13 @@ using UnityEngine.SceneManagement;
 
 public class StartButton : MenuButton
 {
+    [SerializeField]
+    AudioClip mouseDownAudio;
+
     void OnMouseDown()
     {
-        SceneManager.LoadScene("MainScene");
+        audioSource.PlayOneShot(mouseDownAudio);
+        GameObject.Find("GameManager").GetComponent<FadeManager>().StartFade(() => SceneManager.LoadScene("MainScene"));
+        //SceneManager.LoadScene("MainScene");
     }
 }
