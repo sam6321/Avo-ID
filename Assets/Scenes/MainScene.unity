@@ -793,7 +793,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnNode: {fileID: 113599273}
-  avoPrefab: {fileID: 3350958191884107383, guid: f14a5fef31a20324caadbbb825780fe2,
+  avoPrefab: {fileID: 1168309575982618140, guid: 4d2179adfb3831693ba42bb547038c70,
     type: 3}
   spawnRate: 2
   stamper1: {fileID: 1479106342}
