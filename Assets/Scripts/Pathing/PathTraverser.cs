@@ -19,12 +19,19 @@ public class PathTraverser : MonoBehaviour
     [SerializeField]
     private OnHitTargetEvent onHitTarget;
 
-    private new Rigidbody rigidbody;
+    private new Rigidbody rigidbody = null;
 
     public PathNode Target
     {
         get { return target; }
-        set { target = value; }
+        set
+        {
+            target = value;
+            if(target == null && rigidbody != null)
+            {
+                rigidbody.velocity = Vector3.zero;
+            }
+        }
     }
 
     public OnHitTargetEvent OnHitTarget
@@ -49,11 +56,12 @@ public class PathTraverser : MonoBehaviour
             if (remaining < onTargetDistance)
             {
                 PathNode[] potentialTargets = Target.Next.Where(next => next.NodeEnabled).ToArray();
+                PathNode currentTarget = target;
                 PathNode nextTarget = potentialTargets.Length > 0 ? Utils.RandomElement(potentialTargets) : null;
-                
-                onHitTarget.Invoke(target, nextTarget);
 
                 target = nextTarget;
+
+                onHitTarget.Invoke(currentTarget, nextTarget);
             }
 
             if(target)
