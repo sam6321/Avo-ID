@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 public class MenuButton : MonoBehaviour
 {
@@ -12,17 +11,23 @@ public class MenuButton : MonoBehaviour
     [SerializeField]
     Sprite onSprite;
 
+    [SerializeField]
+    AudioClip mouseOverAudio;
+
     private SpriteRenderer spriteRenderer;
-    // Start is called before the first frame update
+    protected AudioSource audioSource;
+
     void Start()
     {
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     void OnMouseOver()
     {
         if(spriteRenderer.sprite != onSprite)
         {
+            audioSource.PlayOneShot(mouseOverAudio);
             spriteRenderer.sprite = onSprite;
         }
     }
