@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿#if UNITY_EDITOR
+using UnityEngine;
 using UnityEditor;
 
 [CustomEditor(typeof(PathNode))]
@@ -20,3 +21,4 @@ public class PathNodeEditor : Editor
         }
     }
 }
+#endif

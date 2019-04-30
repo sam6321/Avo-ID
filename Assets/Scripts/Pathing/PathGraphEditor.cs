@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿#if UNITY_EDITOR
+using UnityEngine;
 using UnityEditor;
 
 [CustomEditor(typeof(PathGraph))]
@@ -20,3 +20,4 @@ public class PathGraphEditor : Editor
         }
     }
 }
+#endif
