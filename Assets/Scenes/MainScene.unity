@@ -479,6 +479,7 @@ GameObject:
   - component: {fileID: 499788135}
   - component: {fileID: 499788134}
   - component: {fileID: 499788133}
+  - component: {fileID: 499788136}
   m_Layer: 8
   m_Name: Junction1Gate
   m_TagString: Untagged
@@ -493,14 +494,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 499788131}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0.8436451, y: 14.884644, z: -8.115748}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1971722409}
   m_Father: {fileID: 1064461772}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!136 &499788133
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -540,13 +541,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92a08dabf164633458fec8c8bbb46e0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  node1:
-    node: {fileID: 1140671543}
-    rotation: 180
-  node2:
-    node: {fileID: 722075629}
-    rotation: -90
-  direction: 0
+  openNode: {fileID: 1140671543}
+  closedNode: {fileID: 722075629}
+  closed: 0
+--- !u!95 &499788136
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 499788131}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: f8983caec39313748813506963ef9dae, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &519265423
 GameObject:
   m_ObjectHideFlags: 0
@@ -642,17 +658,17 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: dd5968d35d7ad5b9d990ff1c6acdca44,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: dd5968d35d7ad5b9d990ff1c6acdca44,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: dd5968d35d7ad5b9d990ff1c6acdca44,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: dd5968d35d7ad5b9d990ff1c6acdca44,
         type: 3}

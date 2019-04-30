@@ -1,67 +1,37 @@
 ﻿using UnityEngine;
 
+[RequireComponent(typeof(Animator))]
 public class TwoWayJunction : MonoBehaviour
 {
-    public enum Direction
-    {
-        FirstNode,
-        SecondNode
-    }
-
-    [System.Serializable]
-    public class NodeInfo
-    {
-        public PathNode node;
-        public float rotation;
-    }
+    [SerializeField]
+    private PathNode openNode;
 
     [SerializeField]
-    private NodeInfo node1;
+    private PathNode closedNode;
 
     [SerializeField]
-    private NodeInfo node2;
+    private bool closed = false;
 
-    [SerializeField]
-    private Direction direction = Direction.FirstNode;
+    private Animator animator;
 
     void Start()
     {
-        SetStateForDirection(direction);
+        animator = GetComponent<Animator>();
+        SetState(closed);
     }
 
     void OnClick()
     {
-        direction = direction == Direction.FirstNode ? Direction.SecondNode : Direction.FirstNode;
-        SetStateForDirection(direction);
+        SetState(!closed);
     }
 
-    private void SetStateForDirection(Direction direction)
+    private void SetState(bool closed)
     {
-        node1.node.NodeEnabled = false;
-        node2.node.NodeEnabled = false;
+        openNode.NodeEnabled = !closed;
+        closedNode.NodeEnabled = closed;
 
-        NodeInfo info = NodeInfoForDirection(direction);
-        if (info != null)
-        {
-            Vector3 rotation = transform.eulerAngles;
-            rotation.y = info.rotation;
-            transform.eulerAngles = rotation;
+        animator.SetBool("closed", closed);
 
-            info.node.NodeEnabled = true;
-        }
-    }
-
-    private NodeInfo NodeInfoForDirection(Direction direction)
-    {
-        switch(direction)
-        {
-            case Direction.FirstNode:
-                return node1;
-            case Direction.SecondNode:
-                return node2;
-            default:
-                Debug.Log("Invalid direction");
-                return null;
-        }
+        this.closed = closed;
     }
 }
