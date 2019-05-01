@@ -5,7 +5,7 @@ using UnityEngine.Events;
 public class PathTraverser : MonoBehaviour
 {
     [System.Serializable]
-    public class OnHitTargetEvent : UnityEvent<PathNode, PathNode> { }
+    public class OnHitTargetEvent : UnityEvent<PathTraverser, PathNode, PathNode> { }
 
     [SerializeField]
     private float moveSpeed = 1.0f;
@@ -61,7 +61,8 @@ public class PathTraverser : MonoBehaviour
 
                 target = nextTarget;
 
-                onHitTarget.Invoke(currentTarget, nextTarget);
+                currentTarget.OnTraverserHitTarget.Invoke(this, currentTarget, nextTarget);
+                onHitTarget.Invoke(this, currentTarget, nextTarget);
             }
 
             if(target)

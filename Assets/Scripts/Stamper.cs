@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class Stamper : MonoBehaviour
 {
+    [SerializeField]
+    private Avocado.Labels[] labels;
+
+    [SerializeField]
+    private int labelIndex = 0;
+
     private Animator animator;
 
     private class TraverserQueueItem
@@ -22,15 +28,19 @@ public class Stamper : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
-    public void Stamp(PathTraverser traverser, PathNode nodeAfterStamp)
+    public void Stamp(PathTraverser traverser, PathNode node, PathNode nextNode)
     {
         // Stop moving where you are now
         traverser.Target = null;
 
+        // Assign the appropriate stamp to this avocado
+        Avocado avo = traverser.GetComponent<Avocado>();
+        avo.AppliedLabels.Add(labels[labelIndex]);
+
         TraverserQueueItem item = new TraverserQueueItem()
         {
             traverser = traverser,
-            nextNode = nodeAfterStamp
+            nextNode = nextNode
         };
 
         if (isStamping)
@@ -45,13 +55,6 @@ public class Stamper : MonoBehaviour
         }
     }
 
-    void StampInternal(TraverserQueueItem item)
-    {
-        currentItem = item;
-        isStamping = true;
-        animator.SetTrigger("stamp");
-    }
-
     // Triggered when the stamper has begun moving up and the traverser can move forward
     public void OnStampComplete()
     {
@@ -60,10 +63,22 @@ public class Stamper : MonoBehaviour
         {
             StampInternal(queue.Dequeue());
         }
-        catch(InvalidOperationException e)
+        catch (InvalidOperationException e)
         {
             // Queue empty
             isStamping = false;
         }
+    }
+
+    private void StampInternal(TraverserQueueItem item)
+    {
+        currentItem = item;
+        isStamping = true;
+        animator.SetTrigger("stamp");
+    }
+
+    private void OnClick()
+    {
+        labelIndex = (labelIndex + 1) % labels.Length;
     }
 }

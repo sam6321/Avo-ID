@@ -16,7 +16,7 @@ public class PathNodeEditor : Editor
         {
             PathNode next = node.Graph.CreateNode();
             node.AddNext(next);
-            next.transform.position = node.transform.position + Vector3.Scale(Random.onUnitSphere, positionMask);
+            next.transform.position = node.transform.position;
             Selection.activeGameObject = next.gameObject;
         }
     }

@@ -15,7 +15,7 @@ public class PathGraphEditor : Editor
         if (GUILayout.Button("Create Node"))
         {
             PathNode node = graph.CreateRoot();
-            node.transform.position = graph.transform.position + Vector3.Scale(Random.onUnitSphere, positionMask);
+            node.transform.position = graph.transform.position;
             Selection.activeGameObject = node.gameObject;
         }
     }

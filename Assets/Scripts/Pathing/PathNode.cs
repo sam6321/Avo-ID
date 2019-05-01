@@ -1,10 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 
 [ExecuteInEditMode]
 public class PathNode : MonoBehaviour
 {
+    [System.Serializable]
+    public class OnTraverserHitTargetEvent : UnityEvent<PathTraverser, PathNode, PathNode> { };
+
     [SerializeField]
     public PathGraph Graph;
 
@@ -17,6 +21,9 @@ public class PathNode : MonoBehaviour
     [SerializeField]
     private List<PathNode> previousNodes = new List<PathNode>();
 
+    [SerializeField]
+    private OnTraverserHitTargetEvent onTraverserHitTarget = new OnTraverserHitTargetEvent();
+
     public IReadOnlyCollection<PathNode> Next { get { return nextNodes; } }
     public IReadOnlyCollection<PathNode> Previous { get { return previousNodes; } }
     
@@ -24,6 +31,11 @@ public class PathNode : MonoBehaviour
     {
         get { return nodeEnabled; }
         set { nodeEnabled = value; }
+    }
+
+    public OnTraverserHitTargetEvent OnTraverserHitTarget
+    {
+        get { return onTraverserHitTarget; }
     }
 
     void Start()

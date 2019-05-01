@@ -9,8 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2769136005384987663}
-  - component: {fileID: 8974678863646173492}
   - component: {fileID: 74548433460102240}
+  - component: {fileID: 8974678863646173492}
+  - component: {fileID: 4831395594619994346}
   m_Layer: 0
   m_Name: Avocado_2
   m_TagString: Untagged
@@ -33,6 +34,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &74548433460102240
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1168309575982618140}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 1
+  m_Constraints: 112
+  m_CollisionDetection: 1
 --- !u!114 &8974678863646173492
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53,22 +70,19 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: PathTraverser+OnHitTargetEvent, Assembly-CSharp, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!54 &74548433460102240
-Rigidbody:
+--- !u!114 &4831395594619994346
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1168309575982618140}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 1
-  m_Constraints: 0
-  m_CollisionDetection: 1
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 316d722a55dd18d4bb0501703f1363ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  appliedLabels: 
 --- !u!1 &6305133271273737135
 GameObject:
   m_ObjectHideFlags: 0
