@@ -4,6 +4,29 @@ using System.Collections.Generic;
 
 public class Utils
 {
+    [Serializable]
+    public class RangeFloat
+    {
+        public float start;
+        public float end;
+
+        public RangeFloat(float start, float end)
+        {
+            this.start = start;
+            this.end = end;
+        }
+
+        public float Clamp(float value)
+        {
+            return Mathf.Clamp(value, start, end);
+        }
+
+        public float InverseLerp(float value)
+        {
+            return Mathf.InverseLerp(start, end, value);
+        }
+    }
+
     public static T[] Shuffle<T>(T[] array)
     {
         for(int i = 0; i < array.Length; i++)
