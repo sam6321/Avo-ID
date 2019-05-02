@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 74548433460102240}
   - component: {fileID: 8974678863646173492}
   - component: {fileID: 4831395594619994346}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Avocado_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 5854212342009509974}
   - component: {fileID: 2494930187807595962}
   - component: {fileID: 3280636704642446899}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: model
   m_TagString: Untagged
   m_Icon: {fileID: 0}

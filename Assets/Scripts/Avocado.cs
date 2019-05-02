@@ -23,4 +23,14 @@ public class Avocado : MonoBehaviour
     private List<Labels> appliedLabels = new List<Labels>();
 
     public List<Labels> AppliedLabels { get { return appliedLabels; } }
+
+    void OnMouseEnter()
+    {
+
+    }
+
+    void OnMouseExit()
+    {
+
+    }
 }

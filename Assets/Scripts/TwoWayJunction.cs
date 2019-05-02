@@ -20,11 +20,6 @@ public class TwoWayJunction : MonoBehaviour
         SetState(closed);
     }
 
-    void OnClick()
-    {
-        SetState(!closed);
-    }
-
     private void SetState(bool closed)
     {
         openNode.NodeEnabled = !closed;
@@ -34,4 +29,13 @@ public class TwoWayJunction : MonoBehaviour
 
         this.closed = closed;
     }
+
+    void OnMouseOver()
+    {
+        if(Input.GetButtonDown("Fire1"))
+        {
+            SetState(!closed);
+        }
+    }
+
 }
