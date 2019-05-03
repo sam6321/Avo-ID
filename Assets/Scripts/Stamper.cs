@@ -11,6 +11,7 @@ public class Stamper : MonoBehaviour
     private int labelIndex = 0;
 
     private Animator animator;
+    private StamperUI popup;
 
     private class TraverserQueueItem
     {
@@ -22,10 +23,12 @@ public class Stamper : MonoBehaviour
     private TraverserQueueItem currentItem = null;
     private bool isStamping = false;
 
-    // Start is called before the first frame update
     void Start()
     {
         animator = GetComponent<Animator>();
+        popup = GetComponent<UIPopup>().GetPopupComponent<StamperUI>();
+        popup.SetLabels(labels);
+        popup.SetSelectedIndex(labelIndex);
     }
 
     public void Stamp(PathTraverser traverser, PathNode node, PathNode nextNode)
@@ -34,8 +37,7 @@ public class Stamper : MonoBehaviour
         traverser.Target = null;
 
         // Assign the appropriate stamp to this avocado
-        Avocado avo = traverser.GetComponent<Avocado>();
-        avo.AppliedLabels.Add(labels[labelIndex]);
+        traverser.GetComponent<Avocado>().AddLabel(labels[labelIndex]);
 
         TraverserQueueItem item = new TraverserQueueItem()
         {
@@ -77,8 +79,12 @@ public class Stamper : MonoBehaviour
         animator.SetTrigger("stamp");
     }
 
-    private void OnClick()
+    private void OnMouseOver()
     {
-        labelIndex = (labelIndex + 1) % labels.Length;
+        if (Input.GetButtonDown("Fire1"))
+        {
+            labelIndex = (labelIndex + 1) % labels.Length;
+            popup.SetSelectedIndex(labelIndex);
+        }
     }
 }

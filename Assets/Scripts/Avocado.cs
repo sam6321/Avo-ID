@@ -19,18 +19,19 @@ public class Avocado : MonoBehaviour
         Undamaged
     }
 
+    private AvocadoUI popup;
+
     [SerializeField]
     private List<Labels> appliedLabels = new List<Labels>();
 
-    public List<Labels> AppliedLabels { get { return appliedLabels; } }
-
-    void OnMouseEnter()
+    void Start()
     {
-
+        popup = GetComponent<UIPopup>().GetPopupComponent<AvocadoUI>();
     }
 
-    void OnMouseExit()
+    public void AddLabel(Labels label)
     {
-
+        appliedLabels.Add(label);
+        popup.AddLabel(label);
     }
 }
