@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 
 public class Utils
@@ -49,6 +50,23 @@ public class Utils
         else
         {
             return collection[UnityEngine.Random.Range(0, collection.Count)];
+        }
+    }
+
+    public static T[] RandomElements<T>(IList<T> collection, int numElements)
+    {
+        if(collection.Count == 0)
+        {
+            throw new InvalidOperationException("Picking random from empty list");
+        }
+        else if(numElements < 0)
+        {
+            throw new ArgumentException("numElements should be >= 0");
+        }
+        else
+        {
+            T[] shuffledElements = Shuffle(collection.ToArray());
+            return shuffledElements.Take(numElements).ToArray();
         }
     }
 
