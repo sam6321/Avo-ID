@@ -61,7 +61,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.78431374}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -130,3 +130,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textPrefab: {fileID: 8869885708776723687, guid: 4217460cb70e4d043bb2e31d583050e6,
     type: 3}
+  correctColour: {r: 0, g: 0.76862746, b: 0, a: 0.49803922}
+  wrongColour: {r: 0.78431374, g: 0, b: 0, a: 0.49803922}

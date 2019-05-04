@@ -1129,7 +1129,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 519265424}
-  - component: {fileID: 519265425}
   - component: {fileID: 519265426}
   - component: {fileID: 519265427}
   m_Layer: 0
@@ -1153,18 +1152,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &519265425
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 519265423}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7143592f24c8ce04a9cf3f62c4212913, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &519265426
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1178,9 +1165,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnNode: {fileID: 113599273}
-  avoPrefab: {fileID: 1168309575982618140, guid: 4d2179adfb3831693ba42bb547038c70,
-    type: 3}
-  spawnRate: 2
+  spawnableObjectSelection:
+  - item: {fileID: 1168309575982618140, guid: 4d2179adfb3831693ba42bb547038c70, type: 3}
+    weight: 9
+  - item: {fileID: 4012490908640261570, guid: 16adca7e57ba2b047b40e1b05f905af7, type: 3}
+    weight: 1
+  spawnRate: 1
 --- !u!114 &519265427
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1567,7 +1557,7 @@ GameObject:
   - component: {fileID: 722075629}
   m_Layer: 0
   m_Name: Node_Bin
-  m_TagString: Untagged
+  m_TagString: Bin
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

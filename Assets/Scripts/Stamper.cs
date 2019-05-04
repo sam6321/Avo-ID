@@ -36,8 +36,14 @@ public class Stamper : MonoBehaviour
         // Stop moving where you are now
         traverser.Target = null;
 
-        // Assign the appropriate stamp to this avocado
-        traverser.GetComponent<Avocado>().AddLabel(labels[labelIndex]);
+        // If this object doesn't have an avocado, then it's a fruit that should've been binned.
+        // Still stamp it, but don't add any labels
+        Avocado avocado = traverser.GetComponent<Avocado>();
+        if(avocado)
+        {
+            // Assign the appropriate stamp to this avocado
+            avocado.AddLabel(labels[labelIndex]);
+        }
 
         TraverserQueueItem item = new TraverserQueueItem()
         {
