@@ -142,7 +142,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 6754074948363554288, guid: 7bc791dd6b2f670429b85cb94a0af0cd, type: 3}
-  offset: {x: 0, y: 0}
+  offset: {x: 10, y: -10}
   showOnMouseOver: 1
 --- !u!1 &6305133271273737135
 GameObject:
