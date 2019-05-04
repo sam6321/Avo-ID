@@ -67,7 +67,8 @@ public class PathTraverser : MonoBehaviour
 
             if(target)
             {
-                rigidbody.velocity = (target.transform.position - rigidbody.position).normalized * Mathf.Min(moveSpeed, remaining * 8.0f);
+                Vector3 velocity = (target.transform.position - rigidbody.position).normalized * Mathf.Min(moveSpeed, remaining * 8.0f);
+                rigidbody.position += velocity * Time.fixedDeltaTime;
             }
         }
     }

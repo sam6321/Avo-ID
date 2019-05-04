@@ -28,9 +28,8 @@ public class AvoSpawner : MonoBehaviour
         if(Time.time >= lastSpawn + spawnRate)
         {
             // Pick a weighted random object to spawn
-            GameObject newAvo = Instantiate(spawnableObjects.GetItem(), spawnNode.transform.position, Quaternion.identity);
-            PathTraverser traverser = newAvo.GetComponent<PathTraverser>();
-            traverser.Target = spawnNode;
+            GameObject newObject = Instantiate(spawnableObjects.GetItem(), spawnNode.transform.position, Quaternion.identity);
+            newObject.GetComponent<PathTraverser>().Target = spawnNode;
             lastSpawn = Time.time;
         }
     }

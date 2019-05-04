@@ -47,6 +47,13 @@ public class Avocado : MonoBehaviour
     [SerializeField]
     private Labels[] requiredLabels;
 
+    // I'm aware this isn't fantastic but I cbf moving the counting here instead of the UI behaviour
+    public int IncorrectLabelCount { get => popup.IncorrectLabelCount; }
+
+    public int CorrectLabelCount { get => popup.CorrectLabelCount; }
+
+    public int RequiredLabelCount { get => popup.RequiredLabelCount; }
+
     void Start()
     {
         popup = GetComponent<UIPopup>().GetPopupComponent<AvocadoUI>();

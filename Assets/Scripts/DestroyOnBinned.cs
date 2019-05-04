@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class Fruit : MonoBehaviour
+public class DestroyOnBinned : MonoBehaviour
 {
     [SerializeField]
     private float despawnTime = 10.0f;

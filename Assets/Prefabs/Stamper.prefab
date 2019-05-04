@@ -125,8 +125,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 2490621225269126779, guid: e6c49010ba240184ba2208e9b6d08d0c, type: 3}
-  parent: {fileID: 0}
   offset: {x: 10, y: -10}
+  showOnMouseOver: 1
 --- !u!1 &6524794479090376079
 GameObject:
   m_ObjectHideFlags: 0

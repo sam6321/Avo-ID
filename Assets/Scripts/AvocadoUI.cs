@@ -16,8 +16,14 @@ public class AvocadoUI : MonoBehaviour
     // Lookup for all the correct labels for this avocado
     private Dictionary<Avocado.Labels, GameObject> requiredLabelLookup = new Dictionary<Avocado.Labels, GameObject>();
     private int incorrectLabelCount = 0;
+    private int correctLabelCount = 0;
+    private int requiredLabelCount = 0;
 
     public int IncorrectLabelCount { get => incorrectLabelCount; }
+
+    public int CorrectLabelCount { get => correctLabelCount; }
+
+    public int RequiredLabelCount { get => requiredLabelCount; }
 
     public void AddLabel(Avocado.Labels label)
     {
@@ -25,7 +31,11 @@ public class AvocadoUI : MonoBehaviour
         {
             // This is a label we wanted. Ignore duplicates for now?
             Image image = labelObject.GetComponent<Image>();
-            image.enabled = true;
+            if(!image.enabled)
+            {
+                correctLabelCount++;
+                image.enabled = true;
+            }
         }
         else
         {
@@ -43,6 +53,8 @@ public class AvocadoUI : MonoBehaviour
         }
 
         incorrectLabelCount = 0;
+        correctLabelCount = 0;
+        requiredLabelCount = labels.Length;
         requiredLabelLookup.Clear();
         foreach(Avocado.Labels label in labels)
         {
