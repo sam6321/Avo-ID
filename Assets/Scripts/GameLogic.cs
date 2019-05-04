@@ -20,6 +20,9 @@ public class GameLogic : MonoBehaviour
     }
 
     [SerializeField]
+    private Animator truckAnimator;
+
+    [SerializeField]
     private Text totalScoreText;
 
     [SerializeField]
@@ -33,6 +36,7 @@ public class GameLogic : MonoBehaviour
 
     [SerializeField]
     private float scoreTextSpawnDelay = 0.1f;
+
 
     [SerializeField]
     private int scorePerCorrectLabel = 1;
@@ -77,6 +81,7 @@ public class GameLogic : MonoBehaviour
     {
         DoScoreOnTruck(traverser.gameObject);
         Destroy(traverser.gameObject);
+        truckAnimator.SetTrigger("shake");
     }
 
     private void DoScoreOnBin(GameObject binned)
