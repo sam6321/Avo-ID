@@ -1,11 +1,10 @@
 Avo: [title=Begin]
-Avo: Hello there and welcome to the avocado factory! 
-Avo: It's our job, and now your job too, to label avocados before they're sent out to supermarkets.
-Avo: It's pretty easy. 
-Avo: Avocados that need labelling will appear out of that green box to your left.
-Avo: They'll travel along the conveyors until they reach the truck.
-Avo: It's your job to close the gates by clicking on them to direct the avocados to the labellers.
-Avo: You can click on labeller to change which label it'll apply, and mouse over avocados to see what labels they need.
+Avo: Hello! Welcome to the avocado factory! 
+Avo: Your job is to label avocados.
+Avo: Avocados enter from the left.
+Avo: They travel along the conveyors until they reach the truck.
+Avo: Your job is to direct the avocados to labellers using gates.
+Avo: You can click on a labeller to change which label it will apply. Mouse over avocados to see what labels they need.
 Avo: Make sure each avocado has the correct labels before it reaches the truck!
-Avo: Oh, and sometimes other fruit gets in the mix too, make sure you redirect those to the bin.
-Avo: Okay, have fun on your first shift!
+Avo: Oh, and sometimes other fruit gets in the mix too. Make sure you redirect those to the bin.
+Avo: Have fun on your first shift!
