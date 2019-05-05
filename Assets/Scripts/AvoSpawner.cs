@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 
 public class AvoSpawner : MonoBehaviour
 {
@@ -20,7 +21,8 @@ public class AvoSpawner : MonoBehaviour
     private int maxSpawned = 1;
 
     private float lastSpawn = 0.0f;
-    private List<AvoSpawnerTag> spawnedItems = new List<AvoSpawnerTag>();
+    private List<AvoSpawnerTag> spawnedAvos = new List<AvoSpawnerTag>();
+    private List<AvoSpawnerTag> spawnedFruits = new List<AvoSpawnerTag>();
 
     public int MaxSpawned { get => maxSpawned; set => maxSpawned = value; }
     public float MovementSpeed { get; set; } = 1.0f;
@@ -34,7 +36,7 @@ public class AvoSpawner : MonoBehaviour
 
     void Update()
     {
-        if((Time.time >= lastSpawn + spawnRate && spawnedItems.Count < maxSpawned) || spawnedItems.Count == 0)
+        if((Time.time >= lastSpawn + spawnRate && spawnedAvos.Count < maxSpawned) || (spawnedAvos.Count == 0 && Time.time >= lastSpawn + 0.5))
         {
             // Pick a weighted random object to spawn
             GameObject newObject = Instantiate(spawnableObjects.GetItem(), spawnNode.transform.position, Quaternion.identity);
@@ -44,7 +46,15 @@ public class AvoSpawner : MonoBehaviour
 
             AvoSpawnerTag tag = newObject.AddComponent<AvoSpawnerTag>();
             tag.Spawner = this;
-            spawnedItems.Add(tag);
+            Avocado avo = newObject.GetComponent<Avocado>();
+            if(avo != null)
+            {
+                spawnedAvos.Add(tag);
+            }
+            else
+            {
+                spawnedFruits.Add(tag);
+            }
 
             lastSpawn = Time.time;
         }
@@ -57,7 +67,7 @@ public class AvoSpawner : MonoBehaviour
 
     public void DestroyAllSpawnedItems()
     {
-        foreach(AvoSpawnerTag tag in spawnedItems)
+        foreach(AvoSpawnerTag tag in spawnedAvos.Concat(spawnedFruits))
         {
             DestroyOnBinned dob = tag.GetComponent<DestroyOnBinned>();
             if(dob)
@@ -71,15 +81,21 @@ public class AvoSpawner : MonoBehaviour
             }
         }
 
-        spawnedItems.Clear();
+        spawnedAvos.Clear();
+        spawnedFruits.Clear();
     }
 
     public void OnSpawnedItemDestroyed(AvoSpawnerTag item)
     {
-        int index = spawnedItems.IndexOf(item);
+        int index = spawnedAvos.IndexOf(item);
         if(index >= 0)
         {
-            spawnedItems.RemoveAt(index);
+            spawnedAvos.RemoveAt(index);
+        }
+        index = spawnedFruits.IndexOf(item);
+        if(index >= 0)
+        {
+            spawnedFruits.RemoveAt(index);
         }
     }
 }
