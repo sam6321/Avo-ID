@@ -10,14 +10,12 @@ public class FadeManager : MonoBehaviour
 
     public void StartFade(Action onFadeComplete=null)
     {
-        Debug.Log("Fading");
         onFadeCompleteAction = onFadeComplete;
         animator.SetBool("Fade", true);
     }
 
     public void OnFadeComplete()
     {
-        Debug.Log("Faded");
         animator.SetBool("Fade", false);
         if (onFadeCompleteAction != null)
         {
