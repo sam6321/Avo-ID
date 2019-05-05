@@ -13,15 +13,12 @@ public class Stamper : MonoBehaviour
     private Animator animator;
     private StamperUI popup;
 
-    private class TraverserQueueItem
-    {
-        public PathTraverser traverser;
-        public PathNode nextNode;
-    }
-
-    private Queue<TraverserQueueItem> queue = new Queue<TraverserQueueItem>();
-    private TraverserQueueItem currentItem = null;
     private bool isStamping = false;
+
+    [SerializeField]
+    List<AudioClip> stampingSounds;
+
+    private AudioSource audioSource;
 
     void Start()
     {
@@ -29,13 +26,11 @@ public class Stamper : MonoBehaviour
         popup = GetComponent<UIPopup>().GetPopupComponent<StamperUI>();
         popup.SetLabels(labels);
         popup.SetSelectedIndex(labelIndex);
+        audioSource = GetComponent<AudioSource>();
     }
 
     public void Stamp(PathTraverser traverser, PathNode node, PathNode nextNode)
     {
-        // Stop moving where you are now
-        traverser.Target = null;
-
         // If this object doesn't have an avocado, then it's a fruit that should've been binned.
         // Still stamp it, but don't add any labels
         Avocado avocado = traverser.GetComponent<Avocado>();
@@ -45,43 +40,22 @@ public class Stamper : MonoBehaviour
             avocado.AddLabel(labels[labelIndex]);
         }
 
-        TraverserQueueItem item = new TraverserQueueItem()
+        if (!isStamping)
         {
-            traverser = traverser,
-            nextNode = nextNode
-        };
-
-        if (isStamping)
-        {
-            // Stamping something else right now, enqueue this for stamping
-            queue.Enqueue(item);
-        }
-        else
-        {
-            // Set to current and go
-            StampInternal(item);
+            StampInternal();
         }
     }
 
     // Triggered when the stamper has begun moving up and the traverser can move forward
     public void OnStampComplete()
     {
-        currentItem.traverser.Target = currentItem.nextNode;
-        try
-        {
-            StampInternal(queue.Dequeue());
-        }
-        catch (InvalidOperationException e)
-        {
-            // Queue empty
-            isStamping = false;
-        }
+        isStamping = false;
     }
 
-    private void StampInternal(TraverserQueueItem item)
+    private void StampInternal()
     {
-        currentItem = item;
         isStamping = true;
+        Utils.PlayRandomSound(audioSource, stampingSounds);
         animator.SetTrigger("stamp");
     }
 
