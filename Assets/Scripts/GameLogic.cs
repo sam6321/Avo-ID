@@ -93,7 +93,6 @@ public class GameLogic : MonoBehaviour
 
         SetScore(score);
         SetLevel(level);
-        StartNextLevel();
     }
 
     public void StartNextLevel()
