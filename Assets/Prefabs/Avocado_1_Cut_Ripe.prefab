@@ -84,7 +84,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 316d722a55dd18d4bb0501703f1363ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  requiredLabels: 0300000005000000
+  requiredLabels: 0400000005000000
 --- !u!114 &998828393391577324
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -144,6 +144,7 @@ MonoBehaviour:
   prefab: {fileID: 6754074948363554288, guid: 7bc791dd6b2f670429b85cb94a0af0cd, type: 3}
   offset: {x: 10, y: -10}
   showOnMouseOver: 1
+  overlayElements: []
 --- !u!1 &7580040194621433667
 GameObject:
   m_ObjectHideFlags: 0
