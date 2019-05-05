@@ -1539,11 +1539,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnNode: {fileID: 113599273}
   spawnableObjectSelection:
-  - item: {fileID: 1168309575982618140, guid: 4d2179adfb3831693ba42bb547038c70, type: 3}
-    weight: 9
+  - item: {fileID: 1372722667405497461, guid: f6d70c5d86f990688b92454bd730299f, type: 3}
+    weight: 5
   - item: {fileID: 4012490908640261570, guid: 16adca7e57ba2b047b40e1b05f905af7, type: 3}
-    weight: 1
-  spawnRate: 10
+    weight: 2
+  - item: {fileID: 4433228793349920549, guid: 7219911f3dccec4308f0a499ffa711fb, type: 3}
+    weight: 5
+  - item: {fileID: 9035044390318727149, guid: 196916a14bfb15209ae7135077eafffd, type: 3}
+    weight: 5
+  - item: {fileID: 4807730975732036292, guid: 00bc083f86d9afa039b15ad1bb328632, type: 3}
+    weight: 5
+  spawnRate: 3
 --- !u!114 &519265427
 MonoBehaviour:
   m_ObjectHideFlags: 0
