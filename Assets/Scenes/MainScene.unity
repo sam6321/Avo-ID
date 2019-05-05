@@ -197,6 +197,21 @@ PrefabInstance:
       propertyPath: closedNode
       value: 
       objectReference: {fileID: 172637614}
+    - target: {fileID: 7675214851628450029, guid: de8be6a8aba6c8249810fd33159a5347,
+        type: 3}
+      propertyPath: m_Radius
+      value: 0.06
+      objectReference: {fileID: 0}
+    - target: {fileID: 7675214852027652306, guid: de8be6a8aba6c8249810fd33159a5347,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 0.09
+      objectReference: {fileID: 0}
+    - target: {fileID: 7675214852027652306, guid: de8be6a8aba6c8249810fd33159a5347,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 0.04
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: de8be6a8aba6c8249810fd33159a5347, type: 3}
 --- !u!1 &33160975
@@ -4295,6 +4310,26 @@ PrefabInstance:
       propertyPath: closedNode
       value: 
       objectReference: {fileID: 549395683}
+    - target: {fileID: 7675214851628450029, guid: de8be6a8aba6c8249810fd33159a5347,
+        type: 3}
+      propertyPath: m_Radius
+      value: 0.075
+      objectReference: {fileID: 0}
+    - target: {fileID: 7675214852027652306, guid: de8be6a8aba6c8249810fd33159a5347,
+        type: 3}
+      propertyPath: m_Size.y
+      value: -0.04
+      objectReference: {fileID: 0}
+    - target: {fileID: 7675214852027652306, guid: de8be6a8aba6c8249810fd33159a5347,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 7675214852027652306, guid: de8be6a8aba6c8249810fd33159a5347,
+        type: 3}
+      propertyPath: m_Center.x
+      value: 0.01
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: de8be6a8aba6c8249810fd33159a5347, type: 3}
 --- !u!4 &720674186 stripped
@@ -10184,6 +10219,21 @@ PrefabInstance:
         type: 3}
       propertyPath: closed
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7675214851628450029, guid: de8be6a8aba6c8249810fd33159a5347,
+        type: 3}
+      propertyPath: m_Radius
+      value: 0.08
+      objectReference: {fileID: 0}
+    - target: {fileID: 7675214852027652306, guid: de8be6a8aba6c8249810fd33159a5347,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 0.04
+      objectReference: {fileID: 0}
+    - target: {fileID: 7675214852027652306, guid: de8be6a8aba6c8249810fd33159a5347,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 0.09
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: de8be6a8aba6c8249810fd33159a5347, type: 3}
