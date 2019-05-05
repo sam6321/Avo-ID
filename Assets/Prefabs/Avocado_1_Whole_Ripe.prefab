@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1372722667405497461
+--- !u!1 &316252205001824924
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,51 +8,46 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 2690823978410452582}
-  - component: {fileID: 6344653343806004304}
-  - component: {fileID: 806203648949805225}
-  - component: {fileID: 3425246616208036814}
-  - component: {fileID: -8513929964318633157}
-  - component: {fileID: -3546132579952596970}
-  - component: {fileID: 6660816810179916663}
-  - component: {fileID: -812226049852150973}
-  - component: {fileID: 2955582610182585291}
+  - component: {fileID: 3351230097874974979}
+  - component: {fileID: 1006295707560928637}
+  - component: {fileID: 5063261977151759271}
+  - component: {fileID: 1171687633566699742}
   m_Layer: 0
-  m_Name: Avocado_1_Whole_Ripe
+  m_Name: model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &2690823978410452582
+--- !u!4 &3351230097874974979
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1372722667405497461}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -0.29999995, y: 2.84, z: 2.96}
+  m_GameObject: {fileID: 316252205001824924}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 20, y: 20, z: 20}
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 2152608575261279257}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &6344653343806004304
+--- !u!33 &1006295707560928637
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1372722667405497461}
+  m_GameObject: {fileID: 316252205001824924}
   m_Mesh: {fileID: -1851123581172608165, guid: 4a14b7fe15fb504e19b74845216e42e3, type: 3}
---- !u!23 &806203648949805225
+--- !u!23 &5063261977151759271
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1372722667405497461}
+  m_GameObject: {fileID: 316252205001824924}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -83,6 +78,57 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!64 &1171687633566699742
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 316252205001824924}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 1
+  m_CookingOptions: 14
+  m_Mesh: {fileID: -1851123581172608165, guid: 4a14b7fe15fb504e19b74845216e42e3, type: 3}
+--- !u!1 &1372722667405497461
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2690823978410452582}
+  - component: {fileID: 3425246616208036814}
+  - component: {fileID: -8513929964318633157}
+  - component: {fileID: -3546132579952596970}
+  - component: {fileID: 6660816810179916663}
+  - component: {fileID: -812226049852150973}
+  - component: {fileID: 2955582610182585291}
+  m_Layer: 0
+  m_Name: Avocado_1_Whole_Ripe
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2690823978410452582
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1372722667405497461}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 2152608575261279257}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &3425246616208036814
 Animator:
   serializedVersion: 3
@@ -130,7 +176,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 316d722a55dd18d4bb0501703f1363ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  requiredLabels: 0300000008000000
+  requiredLabels: 0300000006000000
 --- !u!114 &6660816810179916663
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -190,3 +236,34 @@ MonoBehaviour:
   prefab: {fileID: 6754074948363554288, guid: 7bc791dd6b2f670429b85cb94a0af0cd, type: 3}
   offset: {x: 10, y: -10}
   showOnMouseOver: 1
+--- !u!1 &3740741053316134552
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2152608575261279257}
+  m_Layer: 0
+  m_Name: model_container
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2152608575261279257
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3740741053316134552}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 3351230097874974979}
+  m_Father: {fileID: 2690823978410452582}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

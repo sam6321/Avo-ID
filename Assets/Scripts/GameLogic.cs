@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameLogic : MonoBehaviour
 {
@@ -19,6 +20,18 @@ public class GameLogic : MonoBehaviour
         }
     }
 
+    [System.Serializable]
+    public class ScoreInfo
+    {
+        public int scorePerCorrectLabel = 1;
+        public int bonusScoreForNoIncorrectLabels = 1;
+        public int penaltyPerIncorrectLabel = -1;
+        public int penaltyPerMissingLabel = -1;
+        public int scoreForBinningNonIdealItem = 1;
+        public int pentaltyForNonIdealItemHittingFinalWaypoint = -2;
+        public int pentalyForBinningIdealItem = -1;
+    }
+
     [SerializeField]
     private Animator truckAnimator;
 
@@ -27,6 +40,29 @@ public class GameLogic : MonoBehaviour
 
     [SerializeField]
     private Text totalScoreText;
+
+    [SerializeField]
+    private Text levelText;
+
+    [SerializeField]
+    private GameObject levelFailedUI;
+    [SerializeField]
+    private Text levelFailedScore;
+
+    [SerializeField]
+    private GameObject levelSucceededUI;
+    [SerializeField]
+    private Text levelSuceededScore;
+
+    [SerializeField]
+    private PathNode[] overridePath;
+
+    // When avocados have got the correct labels, they always choose to use these nodes instead of going
+    // through the normal path. This just gets rid of completed avocados instead of them cluttering up the conveyors
+    public PathNode[] OverridePath { get => overridePath; }
+
+    [SerializeField]
+    private ScoreInfo scoreInfo;
 
     [SerializeField]
     private GameObject scoreTextPopupPrefab;
@@ -40,36 +76,108 @@ public class GameLogic : MonoBehaviour
     [SerializeField]
     private float scoreTextSpawnDelay = 0.1f;
 
-    [SerializeField]
-    private int scorePerCorrectLabel = 1;
+    private AvoSpawner spawner;
 
-    [SerializeField]
-    private int bonusScoreForNoIncorrectLabels = 1;
+    private int minTruckScore;
+    private int maxTruckScore;
 
-    [SerializeField]
-    private int penaltyPerIncorrectLabel = -1;
-
-    [SerializeField]
-    private int penaltyPerMissingLabel = -1;
-
-    [SerializeField]
-    private int scoreForBinningNonIdealItem = 1;
-
-    [SerializeField]
-    private int pentaltyForNonIdealItemHittingFinalWaypoint = -2;
-
-    [SerializeField]
-    private int pentalyForBinningIdealItem = -1;
-
+    private int level = 1;
     private int score = 0;
+    private int truckScore = 0; // Only items that hit the truck add truck score.
+    private bool levelFailed = false;
+    private bool inEndLevel = false;
 
     private void Start()
     {
+        spawner = GetComponent<AvoSpawner>();
+
         SetScore(score);
+        SetLevel(level);
+        StartNextLevel();
+    }
+
+    public void StartNextLevel()
+    {
+        spawner.MaxSpawned = (int)Mathf.Min(Mathf.Ceil(level / 2.0f), 5);
+        spawner.MovementSpeed = Mathf.Min(1.25f + 0.05f * level, 4);
+        spawner.SpawnRate = Mathf.Max(30.0f - 2 * level, 5);
+        spawner.ResetLastSpawned();
+
+        minTruckScore = -6 - level;
+        maxTruckScore = 6 + level * 2;
+
+        SetScore(0);
+        SetTruckScore(0);
+
+        Debug.Log(
+            "MaxSpawned " + spawner.MaxSpawned + "\n" +
+            "MovementSpeed " + spawner.MovementSpeed + "\n" +
+            "SpawnRate " + spawner.SpawnRate + "\n" +
+            "MinTruckScore " + minTruckScore + "\n" +
+            "MaxTruckScore " + maxTruckScore + "\n"
+        );
+
+        spawner.enabled = true;
+        levelFailed = false;
+        inEndLevel = false;
+    }
+
+    void EndLevel(bool failed)
+    {
+        levelFailed = failed;
+        inEndLevel = true;
+        spawner.DestroyAllSpawnedItems();
+        spawner.enabled = false;
+        truckAnimator.SetTrigger("drive");
+    }
+
+    public void OnTruckDriveAwayComplete()
+    {
+        if (levelFailed)
+        {
+            levelFailedUI.SetActive(true);
+            levelFailedScore.text = score.ToString();
+        }
+        else
+        {
+            levelSucceededUI.SetActive(true);
+            levelSuceededScore.text = score.ToString();
+        }
+    }
+
+    public void OnNextLevelClicked()
+    {
+        truckAnimator.SetTrigger("return");
+        levelFailedUI.SetActive(false);
+        levelSucceededUI.SetActive(false);
+    }
+
+    public void OnQuitClicked()
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
+
+    public void OnTruckReturnComplete()
+    {
+        if (levelFailed)
+        {
+            SetLevel(level);
+        }
+        else
+        {
+            SetLevel(level + 1);
+        }
+
+        StartNextLevel();
     }
 
     public void OnHitBin(PathTraverser traverser, PathNode lastNode, PathNode nextNode)
     {
+        if(inEndLevel)
+        {
+            return;
+        }
+
         Rigidbody rigidbody = traverser.GetComponent<Rigidbody>();
         rigidbody.velocity = Vector3.zero;
         rigidbody.useGravity = true;
@@ -81,9 +189,13 @@ public class GameLogic : MonoBehaviour
 
     public void OnHitTruck(PathTraverser traverser, PathNode lastNode, PathNode nextNode)
     {
+        if(inEndLevel)
+        {
+            return;
+        }
+
         DoScoreOnTruck(traverser.gameObject);
         Destroy(traverser.gameObject);
-        truckAnimator.SetTrigger("shake");
     }
 
     private void DoScoreOnBin(GameObject binned)
@@ -96,11 +208,11 @@ public class GameLogic : MonoBehaviour
             scoreTextSpawns.Add(new ScoreTextSpawnInfo
             (
                 binned.transform.position,
-                pentalyForBinningIdealItem.ToString() + " avocado binned",
+                scoreInfo.pentalyForBinningIdealItem.ToString() + " avocado binned",
                 scoreTextPopupIncorrect
             ));
 
-            SetScore(score + pentalyForBinningIdealItem);
+            SetScore(score + scoreInfo.pentalyForBinningIdealItem);
         }
         else
         {
@@ -108,11 +220,11 @@ public class GameLogic : MonoBehaviour
             scoreTextSpawns.Add(new ScoreTextSpawnInfo
             (
                 binned.transform.position,
-                "+" + scoreForBinningNonIdealItem + " non-avocado binned",
+                "+" + scoreInfo.scoreForBinningNonIdealItem + " non-avocado binned",
                 scoreTextPopupCorrect
             ));
 
-            SetScore(score + scoreForBinningNonIdealItem);
+            SetScore(score + scoreInfo.scoreForBinningNonIdealItem);
         }
 
         StartCoroutine(SpawnScoreTexts(scoreTextSpawns));
@@ -122,19 +234,18 @@ public class GameLogic : MonoBehaviour
     {
         List<ScoreTextSpawnInfo> scoreTextSpawns = new List<ScoreTextSpawnInfo>();
         Avocado avo = trucked.GetComponent<Avocado>();
+        // Ok lets work out the score delta for this bad boi
+        int scoreDelta = 0;
         if (avo)
         {
-            // Ok lets work out the score delta for this bad boi
-            int scoreDelta = 0;
-
             // Add score for each correct label
-            int correctLabelScore = avo.CorrectLabelCount * scorePerCorrectLabel; 
-            if(correctLabelScore != 0)
+            int correctLabelScore = avo.CorrectLabelCount * scoreInfo.scorePerCorrectLabel;
+            if (correctLabelScore != 0)
             {
                 scoreTextSpawns.Add(new ScoreTextSpawnInfo
                 (
-                    trucked.transform.position, 
-                    "+" + correctLabelScore + " correct labels", 
+                    trucked.transform.position,
+                    "+" + correctLabelScore + " correct labels",
                     scoreTextPopupCorrect
                 ));
 
@@ -142,8 +253,8 @@ public class GameLogic : MonoBehaviour
             }
 
             // Remove score for each incorrect
-            int incorrectLabelPenalty = avo.IncorrectLabelCount * penaltyPerIncorrectLabel; 
-            if(incorrectLabelPenalty != 0)
+            int incorrectLabelPenalty = avo.IncorrectLabelCount * scoreInfo.penaltyPerIncorrectLabel;
+            if (incorrectLabelPenalty != 0)
             {
                 scoreTextSpawns.Add(new ScoreTextSpawnInfo
                 (
@@ -156,8 +267,8 @@ public class GameLogic : MonoBehaviour
             }
 
             // Remove score for each label missing
-            int missingLabelPenalty = (avo.RequiredLabelCount - avo.CorrectLabelCount) * penaltyPerMissingLabel;
-            if(missingLabelPenalty != 0)
+            int missingLabelPenalty = (avo.RequiredLabelCount - avo.CorrectLabelCount) * scoreInfo.penaltyPerMissingLabel;
+            if (missingLabelPenalty != 0)
             {
                 scoreTextSpawns.Add(new ScoreTextSpawnInfo
                 (
@@ -170,19 +281,17 @@ public class GameLogic : MonoBehaviour
             }
 
             // Add in bonus points for getting all labels correct and no errors
-            if(avo.CorrectLabelCount == avo.RequiredLabelCount && avo.IncorrectLabelCount == 0)
+            if (avo.CorrectLabelCount == avo.RequiredLabelCount && avo.IncorrectLabelCount == 0)
             {
                 scoreTextSpawns.Add(new ScoreTextSpawnInfo
                 (
                     trucked.transform.position,
-                    "+" + bonusScoreForNoIncorrectLabels +  " perfect!",
+                    "+" + scoreInfo.bonusScoreForNoIncorrectLabels + " perfect!",
                     scoreTextPopupCorrect
                 ));
 
-                scoreDelta += bonusScoreForNoIncorrectLabels;
+                scoreDelta += scoreInfo.bonusScoreForNoIncorrectLabels;
             }
-
-            SetScore(score + scoreDelta);
         }
         else
         {
@@ -190,28 +299,56 @@ public class GameLogic : MonoBehaviour
             scoreTextSpawns.Add(new ScoreTextSpawnInfo
             (
                 trucked.transform.position,
-                pentaltyForNonIdealItemHittingFinalWaypoint.ToString() + " not binned",
+                scoreInfo.pentaltyForNonIdealItemHittingFinalWaypoint.ToString() + " not binned",
                 scoreTextPopupIncorrect
             ));
 
-            SetScore(score + pentaltyForNonIdealItemHittingFinalWaypoint);
+            scoreDelta = scoreInfo.pentaltyForNonIdealItemHittingFinalWaypoint;
         }
 
         StartCoroutine(SpawnScoreTexts(scoreTextSpawns));
+        SetScore(score + scoreDelta);
+        SetTruckScore(truckScore + scoreDelta);
+
+        Debug.Log("Truck Score " + truckScore);
+
+        if (truckScore <= minTruckScore)
+        {
+            EndLevel(failed: true);
+        }
+        else if(truckScore >= maxTruckScore)
+        {
+            EndLevel(failed: false);
+        }
+        else
+        {
+            truckAnimator.SetTrigger("shake");
+        } 
+    }
+
+    private void SetTruckScore(int score)
+    {
+        truckScore = score;
+        float factor = Mathf.InverseLerp(minTruckScore, maxTruckScore, truckScore);
+        truckScoreDisplay.SetDial(Mathf.Clamp01(factor));
     }
 
     private void SetScore(int score)
     {
         this.score = score;
-        truckScoreDisplay.SetDial((score + 5.0f) / 10.0f);
         totalScoreText.text = score.ToString();
+    }
+
+    private void SetLevel(int level)
+    {
+        this.level = level;
+        levelText.text = level.ToString();
     }
 
     private IEnumerator SpawnScoreTexts(IEnumerable<ScoreTextSpawnInfo> spawnInfos)
     {
         foreach(ScoreTextSpawnInfo info in spawnInfos)
         {
-            Debug.Log("Spawning text");
             SpawnScoreText(info.position, info.text, info.colour);
             yield return new WaitForSeconds(scoreTextSpawnDelay);
         }

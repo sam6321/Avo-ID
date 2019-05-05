@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -20,6 +21,13 @@ public class PathTraverser : MonoBehaviour
     private OnHitTargetEvent onHitTarget;
 
     private new Rigidbody rigidbody = null;
+    private List<PathNode> potentialTargets = new List<PathNode>();
+
+    public float MoveSpeed { get => moveSpeed; set => moveSpeed = value; }
+
+    // If these nodes appear, always choose them even when disabled.
+    private List<PathNode> overridePath = new List<PathNode>();
+    public List<PathNode> OverridePath { get => overridePath; }
 
     public PathNode Target
     {
@@ -48,14 +56,45 @@ public class PathTraverser : MonoBehaviour
         }
     }
 
+    Vector3 CalcVelocity()
+    {
+        if (target)
+        {
+            return (target.transform.position - rigidbody.position).normalized * moveSpeed;
+        }
+        else
+        {
+            return Vector3.zero;
+        }
+    }
+
     void FixedUpdate()
     {
         if(target)
         {
-            float remaining = Vector3.Distance(rigidbody.position, Target.transform.position);
-            if (remaining < onTargetDistance)
+            // Calc current velocity toward target and new position that we should be at the end of this frame.
+            Vector3 velocity = CalcVelocity();
+            Vector3 newPosition = rigidbody.position + velocity * Time.fixedDeltaTime;
+
+            // Check if this object will move over the target this frame
+            float distanceToTarget = Vector3.Distance(rigidbody.position, target.transform.position);
+            float distanceToNewPosition = Vector3.Distance(rigidbody.position, newPosition);
+
+            if(distanceToTarget < distanceToNewPosition || distanceToTarget < onTargetDistance)
             {
-                PathNode[] potentialTargets = Target.Next.Where(next => next.NodeEnabled).ToArray();
+                // Going to move past the target at our current velocity. So pretend we hit it then begin moving to the 
+                // new target
+                PathNode[] potentialTargets;
+                if(Target.Next.Any(node => overridePath.Contains(node))) {
+                    // If any override nodes are in the next path, always choose them.
+                    potentialTargets = Target.Next.Where(node => overridePath.Contains(node)).ToArray();
+                }
+                else
+                {
+                    // No override path
+                    potentialTargets = Target.Next.Where(next => next.NodeEnabled).ToArray();
+                }
+
                 PathNode currentTarget = target;
                 PathNode nextTarget = potentialTargets.Length > 0 ? Utils.RandomElement(potentialTargets) : null;
 
@@ -63,11 +102,13 @@ public class PathTraverser : MonoBehaviour
 
                 currentTarget.OnTraverserHitTarget.Invoke(this, currentTarget, nextTarget);
                 onHitTarget.Invoke(this, currentTarget, nextTarget);
+
+                // Recalc velocity with new target
+                velocity = CalcVelocity();
             }
 
             if(target)
             {
-                Vector3 velocity = (target.transform.position - rigidbody.position).normalized * Mathf.Min(moveSpeed, remaining * 8.0f);
                 rigidbody.position += velocity * Time.fixedDeltaTime;
             }
         }

@@ -10,13 +10,24 @@ public class DestroyOnBinned : MonoBehaviour
     {
         if(current.CompareTag("Bin"))
         {
-            StartCoroutine(Despawn());
+            // Also remove this item from the avo spawner, because otherwise another won't spawn until this one has poofed
+            AvoSpawnerTag tag = GetComponent<AvoSpawnerTag>();
+            if(tag)
+            {
+                tag.Spawner.OnSpawnedItemDestroyed(tag);
+            }
+            PerformDestroy(despawnTime);
         }
     }
 
-    IEnumerator Despawn()
+    public void PerformDestroy(float waitTime)
     {
-        yield return new WaitForSeconds(despawnTime);
+        StartCoroutine(Despawn(waitTime));
+    }
+
+    IEnumerator Despawn(float waitTime)
+    {
+        yield return new WaitForSeconds(waitTime);
         Animator animator = GetComponent<Animator>();
         animator.SetTrigger("fade");
     }

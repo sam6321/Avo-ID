@@ -20,6 +20,8 @@ public class Stamper : MonoBehaviour
 
     private AudioSource audioSource;
 
+    private List<Avocado> avocadosToStamp = new List<Avocado>();
+
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -33,11 +35,11 @@ public class Stamper : MonoBehaviour
     {
         // If this object doesn't have an avocado, then it's a fruit that should've been binned.
         // Still stamp it, but don't add any labels
-        Avocado avocado = traverser.GetComponent<Avocado>();
-        if(avocado)
+        Avocado avo = traverser.GetComponent<Avocado>();
+        if(avo)
         {
-            // Assign the appropriate stamp to this avocado
-            avocado.AddLabel(labels[labelIndex]);
+            // Assign the appropriate stamp to this avocado when the stamper has finished
+            avocadosToStamp.Add(avo);
         }
 
         if (!isStamping)
@@ -50,6 +52,12 @@ public class Stamper : MonoBehaviour
     public void OnStampComplete()
     {
         isStamping = false;
+        // Defer adding labels so the avocados don't speed up before the stamper has hit them.
+        foreach(Avocado avo in avocadosToStamp)
+        {
+            avo.AddLabel(labels[labelIndex]);
+        }
+        avocadosToStamp.Clear();
     }
 
     private void StampInternal()

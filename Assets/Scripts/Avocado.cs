@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Avocado : MonoBehaviour
@@ -10,37 +11,9 @@ public class Avocado : MonoBehaviour
         Small,
         Ripe,
         Unripe,
-        Bumpy,
-        Smooth,
         Cut,
-        Uncut,
-        Damaged,
-        Undamaged
+        Whole,
     }
-
-    private class LabelGroup
-    {
-        public Labels[] labels;
-
-        public LabelGroup(params Labels[] labels)
-        {
-            this.labels = labels;
-        }
-
-        public Labels RandomLabel()
-        {
-            return Utils.RandomElement(labels);
-        }
-    }
-
-    private static LabelGroup[] labelGroups = new LabelGroup[]
-    {
-        new LabelGroup(Labels.Large, Labels.Small),
-        new LabelGroup(Labels.Ripe, Labels.Unripe),
-        new LabelGroup(Labels.Bumpy, Labels.Smooth),
-        new LabelGroup(Labels.Cut, Labels.Uncut),
-        new LabelGroup(Labels.Damaged, Labels.Undamaged),
-    };
 
     private AvocadoUI popup;
 
@@ -57,11 +30,35 @@ public class Avocado : MonoBehaviour
     void Start()
     {
         popup = GetComponent<UIPopup>().GetPopupComponent<AvocadoUI>();
+
+        List<Labels> list = requiredLabels.ToList();
+        if(Random.Range(0, 2) == 0)
+        {
+            list.Add(Labels.Small);
+            transform.localScale *= 0.75f;
+        }
+        else
+        {
+            list.Add(Labels.Large);
+        }
+        requiredLabels = list.ToArray();
+
         popup.SetRequiredLabels(requiredLabels);
     }
 
     public void AddLabel(Labels label)
     {
         popup.AddLabel(label);
+
+        if(RequiredLabelCount == CorrectLabelCount)
+        {
+            GameLogic logic = GameObject.Find("GameManager").GetComponent<GameLogic>();
+
+            // We've got all the labels needed, speed up
+            PathTraverser traverser = GetComponent<PathTraverser>();
+            traverser.MoveSpeed = 4;
+            traverser.OverridePath.AddRange(logic.OverridePath);
+            // We also need to get our override path to lead us straight to the truck
+        }
     }
 }
