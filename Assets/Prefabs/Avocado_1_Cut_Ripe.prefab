@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 998828393391577324}
   - component: {fileID: 7489939153609541326}
   - component: {fileID: 8971866248450939727}
+  - component: {fileID: 2446661469495824543}
   m_Layer: 0
   m_Name: Avocado_1_Cut_Ripe
   m_TagString: Untagged
@@ -192,3 +193,17 @@ MonoBehaviour:
   prefab: {fileID: 6754074948363554288, guid: 7bc791dd6b2f670429b85cb94a0af0cd, type: 3}
   offset: {x: 10, y: -10}
   showOnMouseOver: 1
+--- !u!64 &2446661469495824543
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4807730975732036292}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 1
+  m_CookingOptions: 14
+  m_Mesh: {fileID: -2447240660081607507, guid: 8d6cde14b3f1bdd369792e36c10d9b97, type: 3}

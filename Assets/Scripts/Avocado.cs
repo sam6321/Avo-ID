@@ -57,9 +57,6 @@ public class Avocado : MonoBehaviour
     void Start()
     {
         popup = GetComponent<UIPopup>().GetPopupComponent<AvocadoUI>();
-
-        int numLabels = Random.Range(2, labelGroups.Length);
-        requiredLabels = Utils.RandomElements(labelGroups, numLabels).Select(group => group.RandomLabel()).ToArray();
         popup.SetRequiredLabels(requiredLabels);
     }
 

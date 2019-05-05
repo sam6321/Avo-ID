@@ -23,6 +23,9 @@ public class GameLogic : MonoBehaviour
     private Animator truckAnimator;
 
     [SerializeField]
+    private TruckScoreDisplay truckScoreDisplay;
+
+    [SerializeField]
     private Text totalScoreText;
 
     [SerializeField]
@@ -36,7 +39,6 @@ public class GameLogic : MonoBehaviour
 
     [SerializeField]
     private float scoreTextSpawnDelay = 0.1f;
-
 
     [SerializeField]
     private int scorePerCorrectLabel = 1;
@@ -201,6 +203,7 @@ public class GameLogic : MonoBehaviour
     private void SetScore(int score)
     {
         this.score = score;
+        truckScoreDisplay.SetDial((score + 5.0f) / 10.0f);
         totalScoreText.text = score.ToString();
     }
 
