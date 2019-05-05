@@ -40,6 +40,7 @@ public class Avocado : MonoBehaviour
         else
         {
             list.Add(Labels.Large);
+            transform.localScale *= 1.25f;
         }
         requiredLabels = list.ToArray();
 
