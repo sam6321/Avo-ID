@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class UIPopup : MonoBehaviour
@@ -12,6 +13,9 @@ public class UIPopup : MonoBehaviour
 
     [SerializeField]
     private bool showOnMouseOver = false;
+
+    [SerializeField]
+    private List<GameObject> overlayElements;
 
     private GameObject instance;
 
@@ -45,9 +49,17 @@ public class UIPopup : MonoBehaviour
 
     private void OnMouseEnter()
     {
-        if(showOnMouseOver)
+        Show();
+    }
+
+    private void Show()
+    {
+        if (showOnMouseOver && !instance.activeSelf)
         {
-            instance.SetActive(true);
+            if(overlayElements.Where(overlay => overlay.activeSelf).Count() == 0)
+            {
+                instance.SetActive(true);
+            }
         }
     }
 
@@ -55,6 +67,7 @@ public class UIPopup : MonoBehaviour
     {
         if (showOnMouseOver)
         {
+            Show();
             (instance.transform as RectTransform).position = (Vector2)Input.mousePosition + offset;
         }
     }

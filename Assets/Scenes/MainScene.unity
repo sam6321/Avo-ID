@@ -6853,9 +6853,29 @@ PrefabInstance:
       objectReference: {fileID: 8300000, guid: 9f7ff97ce90aff330aeb26795af946c4, type: 3}
     - target: {fileID: 6524794479021554328, guid: 946e90a4e43e95148b9f8ffab0cb5739,
         type: 3}
+      propertyPath: overlayElements.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6524794479021554328, guid: 946e90a4e43e95148b9f8ffab0cb5739,
+        type: 3}
       propertyPath: parent
       value: 
       objectReference: {fileID: 2115481225}
+    - target: {fileID: 6524794479021554328, guid: 946e90a4e43e95148b9f8ffab0cb5739,
+        type: 3}
+      propertyPath: overlayElements.Array.data[0]
+      value: 
+      objectReference: {fileID: 1740606162}
+    - target: {fileID: 6524794479021554328, guid: 946e90a4e43e95148b9f8ffab0cb5739,
+        type: 3}
+      propertyPath: overlayElements.Array.data[1]
+      value: 
+      objectReference: {fileID: 1290694471}
+    - target: {fileID: 6524794479021554328, guid: 946e90a4e43e95148b9f8ffab0cb5739,
+        type: 3}
+      propertyPath: overlayElements.Array.data[2]
+      value: 
+      objectReference: {fileID: 716465734}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 946e90a4e43e95148b9f8ffab0cb5739, type: 3}
 --- !u!4 &1416853145 stripped
@@ -10133,9 +10153,29 @@ PrefabInstance:
       objectReference: {fileID: 8300000, guid: 7fcdba54582ad1ad7899744252b15b89, type: 3}
     - target: {fileID: 6524794479021554328, guid: 946e90a4e43e95148b9f8ffab0cb5739,
         type: 3}
+      propertyPath: overlayElements.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6524794479021554328, guid: 946e90a4e43e95148b9f8ffab0cb5739,
+        type: 3}
       propertyPath: parent
       value: 
       objectReference: {fileID: 2115481225}
+    - target: {fileID: 6524794479021554328, guid: 946e90a4e43e95148b9f8ffab0cb5739,
+        type: 3}
+      propertyPath: overlayElements.Array.data[0]
+      value: 
+      objectReference: {fileID: 1740606162}
+    - target: {fileID: 6524794479021554328, guid: 946e90a4e43e95148b9f8ffab0cb5739,
+        type: 3}
+      propertyPath: overlayElements.Array.data[1]
+      value: 
+      objectReference: {fileID: 1290694471}
+    - target: {fileID: 6524794479021554328, guid: 946e90a4e43e95148b9f8ffab0cb5739,
+        type: 3}
+      propertyPath: overlayElements.Array.data[2]
+      value: 
+      objectReference: {fileID: 716465734}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 946e90a4e43e95148b9f8ffab0cb5739, type: 3}
 --- !u!1001 &7675214853226589621
