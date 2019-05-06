@@ -103,9 +103,9 @@ public class GameLogic : MonoBehaviour
 
     public void StartNextLevel()
     {
-        spawner.MaxSpawned = (int)Mathf.Min(Mathf.Ceil(level / 2.0f), 5);
-        spawner.MovementSpeed = Mathf.Min(1.25f + 0.05f * level, 4);
-        spawner.SpawnRate = Mathf.Max(30.0f - 2 * level, 5);
+        spawner.MaxSpawned = (int)Mathf.Min(level, 5);
+        spawner.MovementSpeed = Mathf.Min(1.2f + 0.1f * level, 4);
+        spawner.SpawnRate = Mathf.Max(30.0f - 5.0f * level, 5);
         spawner.ResetLastSpawned();
 
         minTruckScore = -6 - level;

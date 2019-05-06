@@ -25,12 +25,16 @@ public class TwoWayJunction : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
-        SetState(closed);
+        SetState(closed, playSound: false);
     }
 
-    private void SetState(bool closed)
+    private void SetState(bool closed, bool playSound)
     {
-        audioSource.PlayOneShot(closed ? closeSound : openSound);
+        if(playSound)
+        {
+            audioSource.PlayOneShot(closed ? closeSound : openSound);
+        }
+
         openNode.NodeEnabled = !closed;
         closedNode.NodeEnabled = closed;
 
@@ -43,7 +47,7 @@ public class TwoWayJunction : MonoBehaviour
     {
         if(Input.GetButtonDown("Fire1"))
         {
-            SetState(!closed);
+            SetState(!closed, playSound: true);
         }
     }
 
