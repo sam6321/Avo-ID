@@ -12,16 +12,25 @@ public class TwoWayJunction : MonoBehaviour
     [SerializeField]
     private bool closed = false;
 
+    [SerializeField]
+    private AudioClip openSound;
+
+    [SerializeField]
+    private AudioClip closeSound;
+
     private Animator animator;
+    private AudioSource audioSource;
 
     void Start()
     {
         animator = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
         SetState(closed);
     }
 
     private void SetState(bool closed)
     {
+        audioSource.PlayOneShot(closed ? closeSound : openSound);
         openNode.NodeEnabled = !closed;
         closedNode.NodeEnabled = closed;
 
