@@ -76,6 +76,11 @@ public class GameLogic : MonoBehaviour
     [SerializeField]
     private float scoreTextSpawnDelay = 0.1f;
 
+    [SerializeField]
+    private AudioClip errorSound;
+
+    private AudioSource audioSource;
+
     private AvoSpawner spawner;
 
     private int minTruckScore;
@@ -90,6 +95,7 @@ public class GameLogic : MonoBehaviour
     private void Start()
     {
         spawner = GetComponent<AvoSpawner>();
+        audioSource = GetComponent<AudioSource>();
 
         SetScore(score);
         SetLevel(level);
@@ -203,6 +209,8 @@ public class GameLogic : MonoBehaviour
         Avocado avo = binned.GetComponent<Avocado>();
         if (avo)
         {
+            audioSource.PlayOneShot(errorSound);
+
             // No you fool don't bin these
             scoreTextSpawns.Add(new ScoreTextSpawnInfo
             (
@@ -235,6 +243,7 @@ public class GameLogic : MonoBehaviour
         Avocado avo = trucked.GetComponent<Avocado>();
         // Ok lets work out the score delta for this bad boi
         int scoreDelta = 0;
+        bool errorsMade = false;
         if (avo)
         {
             // Add score for each correct label
@@ -255,6 +264,7 @@ public class GameLogic : MonoBehaviour
             int incorrectLabelPenalty = avo.IncorrectLabelCount * scoreInfo.penaltyPerIncorrectLabel;
             if (incorrectLabelPenalty != 0)
             {
+                errorsMade = true;
                 scoreTextSpawns.Add(new ScoreTextSpawnInfo
                 (
                     trucked.transform.position,
@@ -269,6 +279,7 @@ public class GameLogic : MonoBehaviour
             int missingLabelPenalty = (avo.RequiredLabelCount - avo.CorrectLabelCount) * scoreInfo.penaltyPerMissingLabel;
             if (missingLabelPenalty != 0)
             {
+                errorsMade = true;
                 scoreTextSpawns.Add(new ScoreTextSpawnInfo
                 (
                     trucked.transform.position,
@@ -294,6 +305,7 @@ public class GameLogic : MonoBehaviour
         }
         else
         {
+            errorsMade = true;
             // Bad, this isn't an avo, get it out of here
             scoreTextSpawns.Add(new ScoreTextSpawnInfo
             (
@@ -303,6 +315,11 @@ public class GameLogic : MonoBehaviour
             ));
 
             scoreDelta = scoreInfo.pentaltyForNonIdealItemHittingFinalWaypoint;
+        }
+
+        if (errorsMade)
+        {
+            audioSource.PlayOneShot(errorSound);
         }
 
         StartCoroutine(SpawnScoreTexts(scoreTextSpawns));
